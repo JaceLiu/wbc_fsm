@@ -1,0 +1,22 @@
+{
+    "model_path": "model/soccer/model_103998.onnx",
+    "motion_file": "/home/jace/jace_work/assets/humanoidsoccer/HumanoidSoccer/motions/soccer-standard/soccer-standard-001_right.npz",
+    "safe_projgravity_threshold": 2.6,
+    "clip_observations": 100.0,
+    "clip_actions": 100.0,
+    "ball_topic": "rt/soccer/ball_pos",
+    "target_topic": "rt/soccer/target_pos",
+    "g1_detection_topic": "detectionresults",
+    "g1_location_topic": "rt/locationresults",
+    "g1_servo_state_topic": "rt/g1_comp_servo/state",
+    "g1_lowstate_topic": "rt/lowstate",
+    "g1_sport_state_topic": "rt/sportmodestate",
+    "g1_ball_min_score": 0.70,
+    "g1_goalpost_min_score": 0.35,
+    "g1_target_timeout_sec": 1.0,
+    "g1_field_length_m": 14.0,
+    "g1_opponent_goal": true,
+    "anchor_body_index": 7,
+    "ball_init": [0.7, 0.0, 0.11],
+    "target_init": [1.2, 0.0, 0.11]
+}

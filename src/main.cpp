@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <vector>
 #include <cstring>
+#include <cstdlib>
 #include <openssl/sha.h>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
@@ -22,6 +23,7 @@
 #include <arpa/inet.h>
 #include "control/ControlFrame.h"
 #include "control/CtrlComponents.h"
+#include "perception/G1SoccerPerceptionBridge.h"
 #include "interface/IOSDK.h"
 
 bool running = true;  
@@ -48,6 +50,10 @@ int main(int argc, char **argv) {
     
     setProcessScheduler();
     std::cout << std::fixed << std::setprecision(3);
+    const char* g1_network_interface = std::getenv("G1_NETWORK_INTERFACE");
+    unitree::robot::ChannelFactory::Instance()->Init(
+            0, g1_network_interface != nullptr ? g1_network_interface : "eth0");
+    G1SoccerPerceptionBridge g1_bridge(std::string(PROJECT_ROOT_DIR) + "/config/soccer.json");
     IOInterface *ioInter;
     CtrlPlatform ctrlPlat;
 
@@ -64,6 +70,7 @@ int main(int argc, char **argv) {
 
     while (running) {
         if (ctrlComp->exitFlag) break;
+        g1_bridge.proceed();
         ctrlFrame.run();
     }
 

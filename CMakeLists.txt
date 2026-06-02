@@ -9,12 +9,16 @@ find_package(Boost)
 find_package(nlohmann_json 3.7.3 REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(unitree_sdk2 REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(ZLIB REQUIRED)
 
 set(ONNXRUNTIME_ROOT ${PROJECT_SOURCE_DIR}/onnxruntime-linux-x64-1.22.0)
 # set(ONNXRUNTIME_ROOT ${PROJECT_SOURCE_DIR}/onnxruntime-linux-aarch64-1.22.0)
 
 include_directories(
     include
+    ${PROJECT_SOURCE_DIR}/../htwk/vendor/g1/robocup_dds/detection
+    ${PROJECT_SOURCE_DIR}/../htwk/vendor/g1/robocup_dds/location
     ${ONNXRUNTIME_ROOT}/include
     ${ONNXRUNTIME_ROOT}/include/onnxruntime
     ${ONNXRUNTIME_ROOT}/include/onnxruntime/core/session
@@ -32,7 +36,12 @@ file(GLOB_RECURSE SRC_LIST
     "src/*/*.cc"
 )
 
-add_executable(wbc_fsm src/main.cpp ${SRC_LIST})
+set(G1_DDS_SOURCES
+    ${PROJECT_SOURCE_DIR}/../htwk/vendor/g1/robocup_dds/detection/DetectionModule.cpp
+    ${PROJECT_SOURCE_DIR}/../htwk/vendor/g1/robocup_dds/location/LocationModule.cpp
+)
+
+add_executable(wbc_fsm src/main.cpp ${SRC_LIST} ${G1_DDS_SOURCES})
 
 target_compile_definitions(wbc_fsm PRIVATE 
     PROJECT_ROOT_DIR="${PROJECT_SOURCE_DIR}"
@@ -41,8 +50,10 @@ target_compile_definitions(wbc_fsm PRIVATE
 target_link_libraries(wbc_fsm PRIVATE
     ${ONNXRUNTIME_ROOT}/lib/libonnxruntime.so.1.22.0
     unitree_sdk2
+    OpenSSL::Crypto
     ${CUDA_LIBRARIES}
     nlohmann_json::nlohmann_json
     Eigen3::Eigen
     ${Boost_LIBRARIES}
+    ZLIB::ZLIB
 )

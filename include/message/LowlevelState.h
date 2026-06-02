@@ -67,9 +67,19 @@ struct LowlevelState
 {
     IMU imu;
     MotorState motorState[29];
+    float basePos[3];
+    float baseLinVel[3];
     UserCommand userCmd;
     UserValue userValue;
 
+    LowlevelState(){
+        for(int i = 0; i < 3; ++i){
+            basePos[i] = 0.0f;
+            baseLinVel[i] = 0.0f;
+        }
+        userCmd = UserCommand::NONE;
+        userValue.setZero();
+    }
 
     RotMat getRotMat(){
         return imu.getRotMat();

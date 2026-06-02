@@ -10,6 +10,7 @@ FSM::FSM(CtrlComponents *ctrlComp)
     _stateList.loco = new State_Loco(_ctrlComp);
     _stateList.amp = new State_AMP(_ctrlComp);
     _stateList.mjamp = new State_MJAMP(_ctrlComp);
+    _stateList.soccer = new State_Soccer(_ctrlComp);
     _stateList.wbc = new State_WBC(_ctrlComp);
     initialize(); 
 }
@@ -78,6 +79,8 @@ FSMState* FSM::getNextState(FSMStateName stateName){
         return _stateList.amp;
     case FSMStateName::MJAMP:
         return _stateList.mjamp;
+    case FSMStateName::SOCCER:
+        return _stateList.soccer;
     default:
         return _stateList.invalid;
         break;

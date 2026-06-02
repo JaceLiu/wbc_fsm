@@ -32,7 +32,8 @@ void State_FixedStand::enter(){
         throw;
     }
     config_file.close();
-    std::cout<<"Please make the robot stand first, stabilize it, then press **R2+A** to enter Locomode"<<std::endl;
+    std::cout << "[State_FixedStand] Stabilize first, then press R2+A to enter MJAMP. "
+                 "Soccer entry is now from MJAMP via R1+UP." << std::endl;
     
 }
 
@@ -66,6 +67,11 @@ FSMStateName State_FixedStand::checkChange(){
     {
         // return FSMStateName::AMP;
         return FSMStateName::MJAMP;
+    }
+    else if (_lowState->userCmd == UserCommand::R1_UP)
+    {
+        std::cout << "[FSM] Ignore direct FIXEDSTAND -> SOCCER. Please enter MJAMP first (R2+A)." << std::endl;
+        return FSMStateName::FIXEDSTAND;
     }
     else if(_lowState->userCmd == UserCommand::SELECT){
         throw std::runtime_error("exit..");

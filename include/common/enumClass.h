@@ -63,6 +63,7 @@ enum class FSMStateName{
     WBCright,
     AMP,
     MJAMP,
+    SOCCER,
 };
 
 #endif  // ENUMCLASS_H

@@ -249,6 +249,8 @@ void State_MJAMP::enter()
 {
     _high_speed_mode = false;
     _terminate_flag = false;
+    std::cout << "[State_MJAMP] Entered MJAMP. Wait for stable stand, then press R1+UP to enter SOCCER."
+              << std::endl;
     for (int i = 0; i < NUM_DOF; i++)
     {
         _lowCmd->motorCmd[i].mode = 10;
@@ -300,6 +302,12 @@ FSMStateName State_MJAMP::checkChange()
     }
     else if (_lowState->userCmd == UserCommand::R1_UP)
     {
+        std::cout << "[FSM] MJAMP -> SOCCER by R1_UP" << std::endl;
+        return FSMStateName::SOCCER;
+    }
+    else if (_lowState->userCmd == UserCommand::R1_RIGHT)
+    {
+        std::cout << "[FSM] MJAMP -> WBC by R1_RIGHT" << std::endl;
         return FSMStateName::WBC;
     }
     else if (_lowState->userCmd == UserCommand::SELECT)
